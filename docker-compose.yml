@@ -1,0 +1,20 @@
+version: "2"
+
+services:
+  app:
+    build:
+      context: .
+    image: labs/stubs
+    restart: on-failure
+    environment:
+      - TZ=Australia/Melbourne
+      - LOGLEVEL=info
+
+  db:
+    image: "mongo"
+    restart: on-failure
+    volumes:
+      - /srv/integration/mongo:/data/db
+    environment:
+      - TZ=Australia/Melbourne
+      - LOGLEVEL=info

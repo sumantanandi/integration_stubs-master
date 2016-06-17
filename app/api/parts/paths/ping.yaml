@@ -1,0 +1,17 @@
+  /ping:
+    get:
+      tags:
+      - System
+      operationId: pingServer
+      summary: "Check server status."
+      description: "Simple health check."
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ping"
+        500:
+          description: "Unexpected Error"
+          schema:
+            $ref: "#/definitions/errors"
+      x-swagger-router-controller: "Ping"

@@ -1,0 +1,31 @@
+  # Apps
+  /app:
+    post:
+      tags:
+      - "System"
+      operationId: "registerApp"
+      summary: "Create an app registration."
+      description: |
+        App registrations are used to manage protected sessions with
+        consumer applications.
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "A JSON object instance."
+        required: true
+        schema:
+          $ref: "#/definitions/app"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/app"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/errors"
+        500:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/errors"
+      x-swagger-router-controller: "Apps"

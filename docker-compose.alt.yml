@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+
+  app:
+    build:
+      args:
+    #    - HTTP_PROXY=some_proxy
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    environment:
+      - NODE_ENV=qa
+    #  - HTTP_PROXY=some_proxy
+    #  - http_proxy=some_proxy
+    #  - HTTPS_PROXY=some_proxy
+    #  - https_proxy=some_proxy
+    #  - NO_PROXY=localhost
+    #  - no_proxy=localhost

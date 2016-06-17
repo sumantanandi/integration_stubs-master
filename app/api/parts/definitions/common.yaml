@@ -1,0 +1,127 @@
+  # data sets for inclusion in other definitions
+  address:
+    type: "object"
+    properties:
+      line1:
+        type: "string"
+      line2:
+        type: "string"
+      country:
+        type: "string"
+      postcode:
+        type: "string"
+      city:
+        type: "string"
+      state:
+        type: "string"
+      monthsAtAddress:
+        type: "integer"
+        format: "int64"
+  employmentDetails:
+    type: "object"
+    properties:
+      employmentStatus:
+        type: "string"
+      industry:
+        type: "string"
+      employerName:
+        type: "string"
+      monthsAtEmployer:
+        type: "integer"
+        format: "int32"
+      phone:
+        type: "string"
+  previousEmploymentDetails:
+    type: "object"
+    properties:
+      employmentStatus:
+        type: "string"
+      industry:
+        type: "string"
+      employerName:
+        type: "string"
+      monthsAtEmployer:
+        type: "integer"
+        format: "int32"
+      phone:
+        type: "string"
+  financeDetails:
+    type: "object"
+    properties:
+      salaryAfterTaxPerMonth:
+        type: "number"
+      otherAfterTaxPerMonth:
+        type: "number"
+      mortgageRentExpensesPerMonth:
+        type: "number"
+      livingExpensesPerMonth:
+        type: "number"
+      otherLoansPerMonth:
+        type: "number"
+      totalOwingOnCards:
+        type: "number"
+      totalCCLimits:
+        type: "number"
+  referenceDetails:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      mobile:
+        type: "string"
+      phone:
+        type: "string"
+  merchantDetails:
+    type: "object"
+    properties:
+      merchantNumber:
+        type: "integer"
+        format: "int64"
+      promoType:
+        type: "string"
+      idSighted:
+        type: "boolean"
+      idType:
+        type: "string"
+      idNumber:
+        type: "string"
+      idIssueDate:
+        type: "string"
+        format: "date"
+      idExpiryDate:
+        type: "string"
+        format: "date"
+      idIssueState:
+        type: "string"
+      idIssueCountry:
+        type: "string"
+      id2Type:
+        type: "string"
+      id2Number:
+        type: "string"
+      id2IssueDate:
+        type: "string"
+        format: "date"
+      id2ExpiryDate:
+        type: "string"
+        format: "date"
+      id2Issuer:
+        type: "string"
+      staffId:
+        type: "string"
+      staffName:
+        type: "string"
+      merchantSigned:
+        type: "boolean"
+      applicantSigned:
+        type: "boolean"
+  authenticationResponse:
+    type: "object"
+    properties:
+      authToken:
+        type: "string"
+      message:
+        type: "string"
+      expiresIn:
+        type: "integer"
+        format: "int32"

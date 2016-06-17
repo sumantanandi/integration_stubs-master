@@ -1,0 +1,26 @@
+  # app model for api token generation
+  app:
+    type: "object"
+    properties:
+      data:
+        $ref: "#/definitions/appModel"
+  appModel:
+    type: "object"
+    required:
+    - "id"
+    - "content"
+    - "notificationType"
+    - "partnerCode"    
+    properties:
+      id:
+        description: "A unique application name."
+        type: "string"
+      content:
+        description: "A contact email for correspondence."
+        type: "string"
+      notificationType:
+        description: "A unique application name."
+        type: "string"
+      partnerCode:
+        description: "A contact email for correspondence."
+        type: "string"        

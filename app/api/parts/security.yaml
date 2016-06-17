@@ -1,0 +1,21 @@
+securityDefinitions:
+  appToken:
+    type: apiKey
+    in: header
+    name: x-app-token
+    description: Authenticated App Access Token required.
+  userToken:
+    type: apiKey
+    in: header
+    name: x-access-token
+    description: Authenticated User Access Token required.
+  paymentToken:
+    type: apiKey
+    in: header
+    name: x-payment-token
+    description: Signed Payment Token required.
+  applicationToken:
+    type: apiKey
+    in: header
+    name: x-application-token
+    description: Signed Application Token used to pass a temporary account for Apply & Buy scenarios.

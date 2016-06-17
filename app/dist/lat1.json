@@ -1,0 +1,320 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "## Overview\nThe functional REST APIs that are documented here are for general consumption on the distribution tier.\n\nHTTP Status Codes are used to indicate the success or otherwise of an API call. The following list is sample of what may be expected for various scenarios but does not exclude others from being returned over time.\n* 200 OK - is returned when a GET, PUT, PATCH or DELETE successfully completes\n* 201 Created - is returned when a POST action results in the successful creation of an instance\n* 202 Accepted - is returned when a transaction is potentially running and the client should not wait. The `Location` header should be used provide the calling agent with the temporary location for subsequent queries. Upon completion, a 303 See Other is returned with the `Location` set to the final resource id.\n* 303 See Other - is returned to indicate that an asynchronous operation has now completed and the URL to query is included in the `Location` header.\n* 400 Bad Request - is returned when some aspect of the request is malkformed or does not pass validation.\n* 401 Unauthorized - is returned when the client is not authorised to execute the API.\n* 404 Not Found - is returned when no matching resource is found and nothing can be returned as a result of a user request.\n* 500 Internal Server Error - Is returned when either the server fails or a aspect of the executing transaction fails to complete successfully.\n\n## Passing Data Payloads\nThe operations that support a body payload loosely conform to JSONAPI and HATEOAS principles. Links and references to other instances should be included following hypertext principles.\n```json\n{ data: [ { type: 'instance-type',\n            id: 'instance-id',\n            ....\n            links: [ { rel: 'self',\n                       href: '/apis/v0/stuff/12345678' }\n                   ]\n          }\n        ]\n}\n```\n## Responses\nResponses also conform to JSONAPI principles and either return a success\npayload with the `data` element or a description of the any contributing errors in an array in the `errors` element.\n### Content Returned on Success\n```json\n{ data: [ { type: 'instance-type',\n            id: 'instance-id',\n            ....\n          },\n          { type: 'instance-type',\n            id: 'instance-id X',\n            ....\n          }\n        ]\n}\n```\n### Error Responses\nWhere possible the API also returns an error array when a problem is encountered. Clients should process any returned elements to display any revelevant messages to users.\n```json\n{ errors: [ { status: '404',\n              title: 'Not found'\n          ]\n}\n```\n",
+        "version": "1.0.0",
+        "title": "Latitude Financial APIs",
+        "termsOfService": "http://api.latitudefinancial.com/terms/",
+        "contact": {
+            "name": "apiteam@latitudefinancial.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "api.latitudefinancial.com",
+    "basePath": "/api/v0",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "tags": [
+        {
+            "name": "Profiles",
+            "description": "Latitude identity store for all customers, partners and staff."
+        },
+        {
+            "name": "Common",
+            "description": "Common data entities and services."
+        }
+    ],
+    "paths": {
+        "/profiles": {
+            "get": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Search known profiles.",
+                "description": "Use this operation to search known profiles supplying an Elastic Search compatible query string to filter the results.",
+                "operationId": "searchProfiles",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "query expression for Elastic Search",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "maximum number of results to return",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Profiles"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "default": {
+                        "description": "Unexpected Error",
+                        "schema": {
+                            "$ref": "#/definitions/Errors"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Create a new profile.",
+                "description": "Create a new profile instance based on the supplied object instance. The id will be allocated and the completed instance will be returned. \n",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ProfileModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/Profiles"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error",
+                        "schema": {
+                            "$ref": "#/definitions/Errors"
+                        }
+                    }
+                }
+            }
+        },
+        "/profiles/{profile_id}": {
+            "get": {
+                "tags": [
+                    "Profiles"
+                ],
+                "description": "Retrieve a profile by id.",
+                "summary": "Retrieve a profile based on the supplied id.",
+                "parameters": [
+                    {
+                        "name": "profile_id",
+                        "in": "path",
+                        "description": "The id of the profile to be retrieved",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Profiles"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error",
+                        "schema": {
+                            "$ref": "#/definitions/Errors"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Update an existing profile.",
+                "description": "Update a complete profile instance. This is not a partial update so it will clear properties that are not included in the body payload.",
+                "parameters": [
+                    {
+                        "name": "profile_id",
+                        "in": "path",
+                        "description": "The id of the profile to be retrieved",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ProfileModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Profiles"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error",
+                        "schema": {
+                            "$ref": "#/definitions/Errors"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a profile by id.",
+                "description": "Delete teh profile associated with the supplied identifier.",
+                "tags": [
+                    "Profiles"
+                ],
+                "parameters": [
+                    {
+                        "name": "profile_id",
+                        "in": "path",
+                        "description": "The id of the profile to be deleted",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "default": {
+                        "description": "Unexpected Error",
+                        "schema": {
+                            "$ref": "#/definitions/Errors"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ErrorPointer": {
+            "type": "object",
+            "required": [
+                "pointer"
+            ],
+            "properties": {
+                "pointer": {
+                    "type": "string"
+                }
+            }
+        },
+        "Errors": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ErrorModel"
+                    }
+                }
+            }
+        },
+        "ErrorModel": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "description": "Contains the response code."
+                },
+                "source": {
+                    "$ref": "#/definitions/ErrorPointer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "detail": {
+                    "type": "string"
+                }
+            }
+        },
+        "Profiles": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ProfileModel"
+                    }
+                }
+            }
+        },
+        "ProfileModel": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "type": {
+                    "type": "string",
+                    "default": "Profile"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Links"
+                    }
+                }
+            }
+        },
+        "Links": {
+            "type": "object",
+            "required": [
+                "rel",
+                "href"
+            ],
+            "properties": {
+                "rel": {
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

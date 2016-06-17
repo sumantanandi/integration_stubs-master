@@ -1,0 +1,11 @@
+definitions:
+  # standard error messages
+  errors:
+    type: "object"
+    properties:
+      errors:
+        type: "array"
+        items:
+          $ref: "#/definitions/errorModel"
+  errorModel:
+    type: "object"

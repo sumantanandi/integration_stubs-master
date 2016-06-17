@@ -1,0 +1,32 @@
+version: "2"
+
+services:
+  lb:
+    image: mailgun/vulcand:v0.8.0-beta.3
+    ports:
+        - '8080:8181'
+    command: [/go/bin/vulcand,
+        "-interface=0.0.0.0",
+        "-apiInterface=0.0.0.0",
+        "--etcd=http://3.149.12.5:2379"]
+
+  app:
+    build:
+      args:
+        #- HTTP_PROXY=some_proxy
+    expose:
+      - "80"
+
+  app-blue:
+    extends:
+      service: app
+    restart: always
+    environment:
+      - NODE_ENV=prod
+
+  app-green:
+    extends:
+      service: app
+    restart: always
+    environment:
+      - NODE_ENV=prod

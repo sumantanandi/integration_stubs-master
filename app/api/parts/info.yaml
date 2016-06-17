@@ -1,0 +1,160 @@
+---
+swagger: "2.0"
+info:
+  description: |
+    ## Overview
+    The functional REST APIs that are documented here are for general consumption on
+    the distribution tier.
+
+    HTTP Status Codes are used to indicate the success or otherwise of an API call.
+
+    The following list is sample of what may be expected for various scenarios but
+    does not exclude others from being returned over time.
+    * 200 OK - is returned when a GET, PUT, PATCH or DELETE successfully completes
+    * 201 Created - is returned when a POST action results in the successful
+    creation of an instance
+    * 202 Accepted - is returned when a transaction is potentially running and
+    the client should not wait. The `Location` header should be used provide
+    the calling agent with the temporary location for subsequent queries. Upon
+    completion, a 303 See Other is returned with the `Location` set to the final
+    resource id.
+    * 303 See Other - is returned to indicate that an asynchronous operation has
+    now completed and the URL to query is included in the `Location` header.
+    * 400 Bad Request - is returned when some aspect of the request is malformed
+    or does not pass validation.
+    * 403 Forbidden - is returned when the client is not authorised to
+    execute the API.
+    * 404 Not Found - is returned when no matching resource is found and nothing
+    can be returned as a result of a user request.
+    * 409 Conflict - is returned when a duplicate would result from the client
+    request.
+    * 500 Internal Server Error - Is returned when either the server fails or a
+    aspect of the executing transaction fails to complete successfully.
+
+    ## Passing Data Payloads
+    The operations that support a body payload loosely conform to JSONAPI and HATEOAS
+    principles. Links and references to other instances should be included following
+    hypertext principles.
+
+    ```json
+    { data: {
+              type: 'instance-type',
+              id: 'instance-id',
+              ....
+              links: [
+                        {
+                          rel: 'self',
+                          href: '/apis/v0/stuff/12345678'
+                        }
+                     ]
+            }
+    }
+    ```
+
+    ## Responses
+    Responses also conform to JSONAPI principles and either return a success
+    payload with the `data` element or a description of the any contributing
+    errors in an array in the `errors` element.
+
+    ### Content Returned on Success
+
+    ```json
+    { data: [
+              {
+                type: 'instance-type',
+                id: 'instance-id',
+                ....
+              },
+              {
+                type: 'instance-type',
+                id: 'instance-id X',
+                ....
+              }
+            ]
+    }
+    ```
+
+    ### Error Responses
+    Where possible the API also returns an error array when a problem is encountered.
+    Clients should process any returned elements to display any revelevant messages to users.
+
+    ```json
+    { errors: [
+                {
+                  status: '404',
+                  title: 'Not found'
+                }
+              ]
+    }
+    ```
+
+    ## Authentication
+    An access token is an opaque string that identifies a user, app, or page
+    and can be used by consumers to make API calls. Access tokens are
+    obtained via a number of methods, each of which are covered later in this
+    document. The token includes information about when the token will expire
+    and which app generated the token. Because of privacy checks, many API
+    calls need to include an access token. There are different types of access
+    tokens to support different use cases:
+
+    | Access Token Type | Description |
+    |---|---|---|
+    | User Access Tokens | This kind of access token is needed any time the app calls an API to read, modify or write a specific profiles's data on their behalf. User access tokens are generally obtained via a login dialog and require a person to permit your app to obtain one.|
+    | App Access Token |This kind of access token is needed to modify and read the app settings. It is generated using a pre-agreed secret between the app and Latitude and is then used during calls that change app-wide settings. You obtain an app access token via a server-to-server call. |
+
+    Access tokens are generally passed as header arguments by well known keys.
+
+    ### Creating User Access Tokens
+    User Access Tokens are created by authenticating against the `/me/authenticate`
+    API. Passing the `username` and `secret` with the request results in a new
+    auth token being returned if successful. This token is then used with calls
+    to APIs requiring an authorised session by passing the User Access Token in
+    the header parameter `x-access-token`.
+    ### Creating App Access Tokens
+    App Access tokens are created by calling the calling the `/app/authenticate` API
+    directly and passing the registered `appKey` and `appSecret` in the
+    request body. If the authentication is successful, the app token is returned.
+    When an API requires a App authentication, include the app token as a header
+    parameter called `x-app-token`.
+    ___
+  version: "1.0.0"
+  title: "Latitude Financial APIs"
+  termsOfService: "http://api.latitudefinancial.com/terms/"
+  contact:
+    name: "apiteam@latitudefinancial.com"
+  license:
+    name: "MIT"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:8082"
+basePath: "/api/v0"
+tags:
+- name: "Applications"
+  description: |
+    Manage credit and account applications.
+- name: "Accounts"
+  description: |
+    Manage accounts.
+- name: "Documents"
+  description: |
+    Manage storage of document and collateral.
+- name: "Messages"
+  description: |
+    Send notifications to users of key lifecycle events.
+- name: "Profiles"
+  description: |
+    Manage Latitude profiles.
+- name: "Offers"
+  description: |
+    Manage Latitude offers.
+- name: "Products"
+  description: |
+    Manage Latitude products.
+- name: "System"
+  description: |
+    Middleware support operations.
+- name: "Payments"
+  description: |
+    Manage payments.
+schemes:
+- "https"
+paths:
