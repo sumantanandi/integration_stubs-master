@@ -1,6 +1,9 @@
 'use strict';
 
 var connect = require('connect');
+console.log("Before config require. From app/index.js" );
+var config = require('../config/config');
+console.log("After config require. From app/index.js", config);
 var db = require('./db');
 var swaggerTools = require('swagger-tools');
 var swaggerHelpers = require('./libs/swagger-helpers');
@@ -13,9 +16,6 @@ var api = require('./api');
 var requestIp = require('request-ip');
 
 var serveStatic = require('serve-static');
-console.log("Before config require. From app/index.js" );
-var config = require('../config/config');
-console.log("After config require. From app/index.js", config);
 
 var cli = require('./libs/cli');
 var args = cli.args();
