@@ -3,8 +3,9 @@
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
-
+console.log("Before app require");
 const app = require('./app');
+console.log("After app require");
 const config = require('./config/config');
 
 /**

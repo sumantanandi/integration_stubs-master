@@ -13,8 +13,9 @@ var api = require('./api');
 var requestIp = require('request-ip');
 
 var serveStatic = require('serve-static');
-
+console.log("Before config require. From app/index.js" );
 var config = require('../config/config');
+console.log("After config require. From app/index.js", config);
 
 var cli = require('./libs/cli');
 var args = cli.args();
