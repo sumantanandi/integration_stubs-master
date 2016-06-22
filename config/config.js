@@ -1,7 +1,7 @@
 console.log("In Config Now");
 
 console.log("Before DB config require");
-var dbConfig = require("./db-config.js")
+//var dbConfig = require("./db-config.js")
 console.log("After DB config require");
 var logger = require('loglevel');
 
@@ -29,7 +29,6 @@ var configSettings = {
     "db": {
       "connectString": "mongodb://localhost/integration"
     },
-    "mssql": dbConfig.mysql.dev,
     "whitelist": []
   }
 };
