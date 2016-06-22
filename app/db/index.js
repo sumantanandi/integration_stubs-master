@@ -8,4 +8,4 @@ console.log("after confi require. app/db/index.js", config);
 
 // Just handle the connection, no need to export
 
-mongoose.connect(config.db.connectString);
+//mongoose.connect(config.db.connectString);
