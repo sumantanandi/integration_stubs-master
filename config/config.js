@@ -1,4 +1,8 @@
+console.log("In Config Now");
+
+console.log("Before DB config require");
 var dbConfig = require("./db-config.js")
+console.log("After DB config require");
 var logger = require('loglevel');
 
 //set default loglevel to info (this will include logging info, warn and error logs)
