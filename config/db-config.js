@@ -1,5 +1,5 @@
 // shared creds
-
+console.log("in dbConfig");
 var dbConfig = {
   "mysql" : {
     "dev": {
